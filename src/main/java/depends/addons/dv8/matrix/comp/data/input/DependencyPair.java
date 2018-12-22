@@ -1,7 +1,8 @@
-package depends.addons.dv8.matrix.comp.data;
+package depends.addons.dv8.matrix.comp.data.input;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Set;
 
 
 public class DependencyPair {
@@ -27,5 +28,12 @@ public class DependencyPair {
 	}
 	public void setDependency(String type, double weight) {
 		dependencies.put(type, new DependencyValue(type,weight));
+	}
+	public Set<String> getDependencyTypes() {
+		return dependencies.keySet();
+	}
+	public DependencyValue getDependencyOfType(String type) {
+		if (dependencies.containsKey(type)) return dependencies.get(type);
+		return new DependencyValue(type);
 	}
 }

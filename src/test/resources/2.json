@@ -6,15 +6,16 @@
 		"./depends/Main.java",
 		"./depends/relations/Inferer.java",
 		"./depends/relations/Relation.java",
-		"./depends/util/WillBeDeleted.java"
+		"./depends/relations/NewAdded.java"
 	],
 	"cells": [
 		{
 			"src": 0,
 			"dest": 2,
 			"values": {
+				"Call": 5.0,
 				"Import": 1.0,
-				"Use": 3.0,
+				"Use": 5.0,
 				"Parameter": 1.0,
 				"Contain": 1.0
 			}
@@ -24,9 +25,8 @@
 			"dest": 3,
 			"values": {
 				"Call": 3.0,
-				"Import": 1.0,
 				"Return": 1.0,
-				"Use": 5.0,
+				"Use": 4.0,
 				"Contain": 7.0
 			}
 		},
@@ -49,6 +49,6 @@
 				"Parameter": 1.0,
 				"Contain": 1.0
 			}
-		}		
+		}
 	]
 }

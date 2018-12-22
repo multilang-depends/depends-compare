@@ -1,4 +1,4 @@
-package depends.addons.dv8.matrix.comp.data;
+package depends.addons.dv8.matrix.comp.data.input;
 
 public class DependencyValue {
 	private double weight;
