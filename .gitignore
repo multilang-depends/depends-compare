@@ -1,0 +1,15 @@
+.~*
+*.swp
+*.class
+*.log
+.idea/
+out/
+*.DS_Store
+/target/
+.classpath
+.project
+.settings/
+META-INF/
+result/
+java_design_pattern_test/
+lang
