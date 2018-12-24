@@ -8,12 +8,11 @@ public class CompareResult {
 
 	public Collection<String> deletedVariables;
 	public Collection<String> addedVariables;
-	
 	public Collection<String> deletedDependencyPairs;
 	public Collection<String> addedDependencyPairs;
-	
 	public HashMap<String,PairDiff> pairDiffs = new HashMap<>();;
-
+	public Summary summary = new Summary();
+	
 	public void addPairWeightDiff(String pairKey, String type, double leftWeight, double rightWeight) {
 		if (!pairDiffs.containsKey(pairKey)){
 			pairDiffs.put(pairKey, new PairDiff(pairKey));
@@ -41,4 +40,11 @@ public class CompareResult {
 	public HashMap<String, PairDiff> getPairDiffs() {
 		return pairDiffs;
 	}
+
+	public Summary getSummary() {
+		return this.summary;
+	}
+
+	
+	
 }

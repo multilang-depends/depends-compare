@@ -33,21 +33,25 @@ public class Comparator {
 			Collection<String> commonVariables = CollectionUtils.intersection(variablesLeft, variablesRight);
 			result.deletedVariables = CollectionUtils.subtract(variablesLeft,commonVariables);
 			result.addedVariables = CollectionUtils.subtract(variablesRight,commonVariables);
-			
 			Set<String> relationKeysLeft = left.getPairs().keySet();
 			Set<String> relationKeysRight = right.getPairs().keySet();
 			Collection<String> commonDependencyPairs = CollectionUtils.intersection(relationKeysLeft, relationKeysRight);
 			result.deletedDependencyPairs =  CollectionUtils.subtract(relationKeysLeft,commonDependencyPairs);
 			result.addedDependencyPairs =  CollectionUtils.subtract(relationKeysRight,commonDependencyPairs);
-			
+			result.getSummary().setCounts(commonVariables.size(),result.deletedVariables.size(),result.addedVariables.size(),
+					commonDependencyPairs.size(),result.deletedDependencyPairs.size(),result.addedDependencyPairs.size());
 			for (String commonPair:commonDependencyPairs) {
 				DependencyPair leftValue = left.getPairs().get(commonPair);
 				DependencyPair rightValue = right.getPairs().get(commonPair);
 				Set<String> leftTypes = leftValue.getDependencyTypes();
 				Set<String> rightTypes = rightValue.getDependencyTypes();
 				Collection<String> commonTypes = CollectionUtils.intersection(leftTypes, rightTypes);
+				result.getSummary().incrCommonDependencyTypesCount(commonTypes.size());
 				Collection<String> deletedTypes = CollectionUtils.subtract(leftTypes,commonTypes);
 				Collection<String> addedTypes = CollectionUtils.subtract(rightTypes,commonTypes);
+				result.getSummary().incrDeletedDependencyTypesCount(deletedTypes.size());
+				result.getSummary().incrAddedDependencyTypesCount(addedTypes.size());
+				
 				for (String deleteType:deletedTypes) {
 					addPairWeightDiff(commonPair,deleteType,leftValue.getDependencyOfType(deleteType).getWeight(),0.0);
 				}
@@ -58,8 +62,9 @@ public class Comparator {
 				for (String commonType:commonTypes) {
 					DependencyValue leftTypeValue = leftValue.getDependencyOfType(commonType);
 					DependencyValue rightTypeValue = rightValue.getDependencyOfType(commonType);
-					if (leftTypeValue.getWeight()-rightTypeValue.getWeight()>1e-3) {
+					if (isDiff(leftTypeValue.getWeight(), rightTypeValue.getWeight())) {
 						addPairWeightDiff(commonPair,commonType,leftTypeValue.getWeight(),rightTypeValue.getWeight());
+						result.getSummary().incrWeightDiffCount();
 					}
 				}
 			}
@@ -67,6 +72,9 @@ public class Comparator {
 			e.printStackTrace();
 		}
 		return result;
+	}
+	private boolean isDiff(double value1, double value2) {
+		return Math.abs(value1-value2)>1e-3;
 	}
 
 	private void addPairWeightDiff(String pairKey, String type, double leftWeight, double rightWeight) {
