@@ -25,16 +25,18 @@ public class Comparator {
 	DependenciesRelation right;
 	private String outputControl;
 	private List<String> ignoredTypes;
-	public Comparator(String outputControl, String[] ignoredTypes) {
+	private TypeMapping typeMapping;
+	public Comparator(String outputControl, String[] ignoredTypes, TypeMapping typeMapping) {
 		result = new CompareResult();
 		this.outputControl = outputControl;
 		this.ignoredTypes = Arrays.asList(ignoredTypes);
+		this.typeMapping = typeMapping;
 	} 
 	public CompareResult compare(String leftFile, String rightFile) {
 		try {
 			DependencyMatrixJsonLoader loader = new DependencyMatrixJsonLoader();
-			left = loader.loadDependencyMatrix(Paths.get(leftFile),this.ignoredTypes);
-			right = loader.loadDependencyMatrix(Paths.get(rightFile),this.ignoredTypes);
+			left = loader.loadDependencyMatrix(Paths.get(leftFile),this.ignoredTypes,this.typeMapping);
+			right = loader.loadDependencyMatrix(Paths.get(rightFile),this.ignoredTypes,this.typeMapping);
 			List<String> variablesLeft = Arrays.asList(left.getVariables());
 			List<String> variablesRight = Arrays.asList(right.getVariables());
 			Collection<String> commonVariables = CollectionUtils.intersection(variablesLeft, variablesRight);

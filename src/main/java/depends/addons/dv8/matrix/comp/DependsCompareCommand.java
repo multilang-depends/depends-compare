@@ -18,6 +18,8 @@ public class DependsCompareCommand {
     private String[] ignore=new String[]{};  
     @Option(names = {"--control"},  description = "d(deleted only)|a(added only)|ad(both)")
     private String control="ad";
+    @Option(names = {"--mappings"},  description = "the type mapping pairs (like Inherit:Extend,P10:Call)")
+    private String[] mappings=new String[]{}; 
     
 	public boolean isHelp() {
 		return help;
@@ -36,6 +38,9 @@ public class DependsCompareCommand {
 	}
 	public String getControl() {
 		return control;
+	}
+	public String[] getMapping() {
+		return mappings;
 	}
 	
 }

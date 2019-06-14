@@ -20,7 +20,7 @@ public class DependencyMatrixJsonLoader {
 	public DependencyMatrixJsonLoader() {
 	}
 
-	public DependenciesRelation loadDependencyMatrix(Path path, List<String> ignoredTypes) throws Exception {
+	public DependenciesRelation loadDependencyMatrix(Path path, List<String> ignoredTypes, TypeMapping typeMapping) throws Exception {
 		DependenciesRelation m = new DependenciesRelation();
 		ObjectMapper mapper = new ObjectMapper();
 		try (InputStream input = Files.newInputStream(path, READ)) {
@@ -35,8 +35,9 @@ public class DependencyMatrixJsonLoader {
 					int src = cell.get("src").asInt();
 					int dest = cell.get("dest").asInt();
 					if (!ignoredTypes.contains(dependencyName)) {
-						m.addDependencies(dependencyName,src,dest,weight);
+						m.addDependencies(typeMapping.map(dependencyName),src,dest,weight);
 					}
+					
 				}
 			}
 		} catch (IOException | NullPointerException ex) {

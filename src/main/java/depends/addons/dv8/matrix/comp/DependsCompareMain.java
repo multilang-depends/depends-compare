@@ -29,7 +29,9 @@ public class DependsCompareMain {
 
 	@SuppressWarnings("deprecation")
 	private static void executeCommand(DependsCompareCommand app) {
-		Comparator comparator = new Comparator(app.getControl(),app.getIgnore());
+		TypeMapping mapping = new TypeMapping();
+		mapping.load(app.getMapping());
+		Comparator comparator = new Comparator(app.getControl(),app.getIgnore(),mapping);
 		CompareResult result = comparator.compare(app.getLeft(), app.getRight());
 		ObjectMapper om = new ObjectMapper();
 		om.configure(SerializationFeature.WRITE_NULL_MAP_VALUES, false);
