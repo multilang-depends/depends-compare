@@ -29,7 +29,7 @@ public class DependsCompareMain {
 
 	@SuppressWarnings("deprecation")
 	private static void executeCommand(DependsCompareCommand app) {
-		Comparator comparator = new Comparator();
+		Comparator comparator = new Comparator(app.getControl(),app.getIgnore());
 		CompareResult result = comparator.compare(app.getLeft(), app.getRight());
 		ObjectMapper om = new ObjectMapper();
 		om.configure(SerializationFeature.WRITE_NULL_MAP_VALUES, false);

@@ -1,5 +1,6 @@
 package depends.addons.dv8.matrix.comp.data.input;
 
+import java.util.Collection;
 import java.util.HashMap;
 
 public class DependenciesRelation {
@@ -31,5 +32,10 @@ public class DependenciesRelation {
 	public HashMap<String, DependencyPair> getPairs() {
 		return pairs;
 	}
-
+	public boolean isDueToVariableRemoval(String removedPairKey, Collection<String> deletedVariables) {
+		return deletedVariables.contains("-->"+removedPairKey);
+	}
+	public boolean isDueToVariableAdded(String addedPairKey, Collection<String> addedVariables) {
+		return addedVariables.contains(addedPairKey+"-->");
+	}
 }

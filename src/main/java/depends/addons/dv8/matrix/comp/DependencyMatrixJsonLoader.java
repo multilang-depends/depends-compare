@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Iterator;
+import java.util.List;
 
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
@@ -19,7 +20,7 @@ public class DependencyMatrixJsonLoader {
 	public DependencyMatrixJsonLoader() {
 	}
 
-	public DependenciesRelation loadDependencyMatrix(Path path) throws Exception {
+	public DependenciesRelation loadDependencyMatrix(Path path, List<String> ignoredTypes) throws Exception {
 		DependenciesRelation m = new DependenciesRelation();
 		ObjectMapper mapper = new ObjectMapper();
 		try (InputStream input = Files.newInputStream(path, READ)) {
@@ -33,7 +34,9 @@ public class DependencyMatrixJsonLoader {
 					double weight = types.get(dependencyName).asDouble();
 					int src = cell.get("src").asInt();
 					int dest = cell.get("dest").asInt();
-					m.addDependencies(dependencyName,src,dest,weight);
+					if (!ignoredTypes.contains(dependencyName)) {
+						m.addDependencies(dependencyName,src,dest,weight);
+					}
 				}
 			}
 		} catch (IOException | NullPointerException ex) {

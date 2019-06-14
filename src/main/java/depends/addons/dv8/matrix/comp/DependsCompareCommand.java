@@ -14,6 +14,11 @@ public class DependsCompareCommand {
 	private String output;
     @Option(names = {"-h","--help"}, usageHelp = true, description = "display this help and exit")
     boolean help;
+    @Option(names = {"--ignore"},split=",",  description = "ignored types")
+    private String[] ignore=new String[]{};  
+    @Option(names = {"--control"},  description = "d(deleted only)|a(added only)|ad(both)")
+    private String control="ad";
+    
 	public boolean isHelp() {
 		return help;
 	}
@@ -25,6 +30,12 @@ public class DependsCompareCommand {
 	}
 	public String getOutput() {
 		return output;
+	}
+	public String[] getIgnore() {
+		return ignore;
+	}
+	public String getControl() {
+		return control;
 	}
 	
 }
