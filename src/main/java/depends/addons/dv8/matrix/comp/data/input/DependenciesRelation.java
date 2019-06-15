@@ -33,9 +33,19 @@ public class DependenciesRelation {
 		return pairs;
 	}
 	public boolean isDueToVariableRemoval(String removedPairKey, Collection<String> deletedVariables) {
-		return deletedVariables.contains("-->"+removedPairKey);
+		for (String v:deletedVariables) {
+			if (removedPairKey.endsWith("-->"+v)) {
+				return true;
+			}
+		}
+		return false;
 	}
 	public boolean isDueToVariableAdded(String addedPairKey, Collection<String> addedVariables) {
-		return addedVariables.contains(addedPairKey+"-->");
+		for (String v:addedVariables) {
+			if (addedPairKey.startsWith(v+"-->")) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

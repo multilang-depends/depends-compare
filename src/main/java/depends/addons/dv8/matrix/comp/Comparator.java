@@ -54,7 +54,7 @@ public class Comparator {
 					return !right.isDueToVariableRemoval(pairKey,result.deletedVariables);
 				}
 			}).collect(Collectors.toSet());
-			result.addedDependencyPairs.stream().filter(new Predicate<String>() {
+			result.addedDependencyPairs = result.addedDependencyPairs.stream().filter(new Predicate<String>() {
 				@Override
 				public boolean test(String pairKey) {
 					return !left.isDueToVariableAdded(pairKey,result.addedVariables);
@@ -90,14 +90,39 @@ public class Comparator {
 					}
 				}
 			}
+			
+			for (String pair:result.addedDependencyPairs) {
+				DependencyPair value = right.getPairs().get(pair);
+				Set<String> types = value.getDependencyTypes();
+				HashMap<String, PairDiff> pairDetail = result.pairAddedDetail;
+				for (String type:types) {
+					addedToPairDetail(pair, value, pairDetail, type,0,value.getDependencyOfType(type).getWeight());
+				}
+			}
+			
+			for (String pair:result.deletedDependencyPairs) {
+				DependencyPair value = left.getPairs().get(pair);
+				Set<String> types = value.getDependencyTypes();
+				HashMap<String, PairDiff> pairDetail = result.pairDeletedDetail;
+				for (String type:types) {
+					addedToPairDetail(pair, value, pairDetail, type,value.getDependencyOfType(type).getWeight(),0);
+				}
+			}
+			
+			
 			if (!this.outputControl.contains("a")) {
 				result.addedDependencyPairs = new ArrayList<>();
 				result.addedVariables = new ArrayList<>();
+				result.pairAddedDetail = new HashMap<>();
 			}
 			if (!this.outputControl.contains("d")) {
 				result.deletedDependencyPairs = new ArrayList<>();
 				result.deletedVariables = new ArrayList<>();
+				result.pairDeletedDetail = new HashMap<>();
 			}
+			
+			
+			
 			result.getSummary().setCounts(commonVariables.size(),result.deletedVariables.size(),result.addedVariables.size(),
 					commonDependencyPairs.size(),result.deletedDependencyPairs.size(),result.addedDependencyPairs.size());
 		
@@ -107,6 +132,14 @@ public class Comparator {
 
 
 		return result;
+	}
+	private void addedToPairDetail(String pair, DependencyPair value, HashMap<String, PairDiff> pairDetail,
+			String type, double leftValue, double rightValue) {
+		if (!pairDetail.containsKey(pair)){
+			pairDetail.put(pair, new PairDiff(pair));
+		}
+		PairDiff diff = pairDetail.get(pair);
+		diff.addWeightDiff(type,leftValue,rightValue);
 	}
 	private boolean isDiff(double value1, double value2) {
 		return Math.abs(value1-value2)>1e-3;
