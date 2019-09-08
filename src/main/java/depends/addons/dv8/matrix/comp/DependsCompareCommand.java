@@ -1,5 +1,8 @@
 package depends.addons.dv8.matrix.comp;
 
+import java.util.Arrays;
+import java.util.List;
+
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
@@ -20,7 +23,17 @@ public class DependsCompareCommand {
     private String control="ad";
     @Option(names = {"--mappings"},  description = "the type mapping pairs (like Inherit:Extend,P10:Call)")
     private String[] mappings=new String[]{}; 
+    @Option(names = {"-f", "--format"},split=",",  description = "the output format: [json(default),excel]")
+    private String[] format=new String[]{"json"};
+
     
+	public List<String> getFormat() {
+		return Arrays.asList(format);
+	}
+	
+	public void setFormat(String[] format) {
+		this.format = format;
+	}
 	public boolean isHelp() {
 		return help;
 	}

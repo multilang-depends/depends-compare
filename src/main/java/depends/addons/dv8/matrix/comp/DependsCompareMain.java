@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
 import depends.addons.dv8.matrix.comp.data.output.CompareResult;
+import depends.addons.dv8.matrix.comp.data.output.XlsxDumper;
 import picocli.CommandLine;
 
 public class DependsCompareMain {
@@ -33,16 +34,21 @@ public class DependsCompareMain {
 		mapping.load(app.getMapping());
 		Comparator comparator = new Comparator(app.getControl(),app.getIgnore(),mapping);
 		CompareResult result = comparator.compare(app.getLeft(), app.getRight());
-		ObjectMapper om = new ObjectMapper();
-		om.configure(SerializationFeature.WRITE_NULL_MAP_VALUES, false);
-		om.configure(SerializationFeature.INDENT_OUTPUT, true);
-		om.setSerializationInclusion(Include.NON_NULL);
-
-		try {
-			om.writerWithDefaultPrettyPrinter().writeValue(new File(app.getOutput()), result);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}		
+		if (app.getFormat().contains("excel")) {
+			XlsxDumper xlsxDumper = new XlsxDumper();
+			xlsxDumper.output(app.getOutput()+".xlsx", result);
+		}
+		if (app.getFormat().contains("json")) {
+			ObjectMapper om = new ObjectMapper();
+			om.configure(SerializationFeature.WRITE_NULL_MAP_VALUES, false);
+			om.configure(SerializationFeature.INDENT_OUTPUT, true);
+			om.setSerializationInclusion(Include.NON_NULL);
+			try {
+				om.writerWithDefaultPrettyPrinter().writeValue(new File(app.getOutput()), result);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}		
+		}
 	}
 
 }

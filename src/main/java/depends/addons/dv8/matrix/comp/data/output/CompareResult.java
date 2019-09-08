@@ -1,5 +1,6 @@
 package depends.addons.dv8.matrix.comp.data.output;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 
@@ -13,8 +14,9 @@ public class CompareResult {
 	public HashMap<String,PairDiff> pairDiffs = new HashMap<>();;
 	public HashMap<String,PairDiff> pairAddedDetail = new HashMap<>();;
 	public HashMap<String,PairDiff> pairDeletedDetail = new HashMap<>();;
-
+	
 	public Summary summary = new Summary();
+	
 	
 	public void addPairWeightDiff(String pairKey, String type, double leftWeight, double rightWeight) {
 		if (!pairDiffs.containsKey(pairKey)){
