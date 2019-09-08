@@ -65,6 +65,18 @@ public class XlsxDumper  {
 			}
 			
 		}
+		for ( PairDiff deletedParis:result.getPairDeletedDetail().values()){
+			for (WeightDiff weight:deletedParis.weightDiffs) {
+				XSSFRow row = sheet.createRow(rowIndex++);
+				String[] files = deletedParis.key.split("-->");
+				row.createCell(0).setCellValue(files[0]);
+				row.createCell(1).setCellValue(files[1]);
+				row.createCell(2).setCellValue(weight.getType());
+				row.createCell(3).setCellValue(weight.getLeft());
+				row.createCell(4).setCellValue(weight.getRight());
+			}
+			
+		}
 		closeFile(filename);
 		return true;
 	}

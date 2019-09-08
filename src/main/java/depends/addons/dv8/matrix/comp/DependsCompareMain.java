@@ -44,7 +44,7 @@ public class DependsCompareMain {
 			om.configure(SerializationFeature.INDENT_OUTPUT, true);
 			om.setSerializationInclusion(Include.NON_NULL);
 			try {
-				om.writerWithDefaultPrettyPrinter().writeValue(new File(app.getOutput()), result);
+				om.writerWithDefaultPrettyPrinter().writeValue(new File(app.getOutput()+".json"), result);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}		

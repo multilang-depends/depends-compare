@@ -48,13 +48,13 @@ public class Comparator {
 			result.deletedDependencyPairs =  CollectionUtils.subtract(relationKeysLeft,commonDependencyPairs);
 			result.addedDependencyPairs =  CollectionUtils.subtract(relationKeysRight,commonDependencyPairs);
 			
-			result.deletedDependencyPairs = result.deletedDependencyPairs.stream().filter(new Predicate<String>() {
+			result.deletedDependencyPairs.stream().filter(new Predicate<String>() {
 				@Override
 				public boolean test(String pairKey) {
 					return !right.isDueToVariableRemoval(pairKey,result.deletedVariables);
 				}
 			}).collect(Collectors.toSet());
-			result.addedDependencyPairs = result.addedDependencyPairs.stream().filter(new Predicate<String>() {
+				result.addedDependencyPairs.stream().filter(new Predicate<String>() {
 				@Override
 				public boolean test(String pairKey) {
 					return !left.isDueToVariableAdded(pairKey,result.addedVariables);
