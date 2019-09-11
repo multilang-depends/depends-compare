@@ -26,6 +26,11 @@ public class DependenciesRelation {
 		this.variables = variables;
 	}
 	
+	public void stripVariablesPrefix(int offset) {
+		for (int i=0;i<variables.length;i++)
+			variables[i]=variables[i].substring(offset);
+	}
+	
 	public String[] getVariables() {
 		return variables;
 	}

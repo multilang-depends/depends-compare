@@ -53,32 +53,35 @@ public class XlsxDumper  {
 		}
 
 		int rowIndex = 1;
-		for ( PairDiff addedPairs:result.getPairAddedDetail().values()){
-			for (WeightDiff weight:addedPairs.weightDiffs) {
-				XSSFRow row = sheet.createRow(rowIndex++);
-				String[] files = addedPairs.key.split("-->");
-				row.createCell(0).setCellValue(files[0]);
-				row.createCell(1).setCellValue(files[1]);
-				row.createCell(2).setCellValue(weight.getType());
-				row.createCell(3).setCellValue(weight.getLeft());
-				row.createCell(4).setCellValue(weight.getRight());
-			}
+		for ( PairDiff pair:result.getPairAddedDetail().values()){
+			rowIndex = output(rowIndex, pair);
 			
 		}
-		for ( PairDiff deletedParis:result.getPairDeletedDetail().values()){
-			for (WeightDiff weight:deletedParis.weightDiffs) {
-				XSSFRow row = sheet.createRow(rowIndex++);
-				String[] files = deletedParis.key.split("-->");
-				row.createCell(0).setCellValue(files[0]);
-				row.createCell(1).setCellValue(files[1]);
-				row.createCell(2).setCellValue(weight.getType());
-				row.createCell(3).setCellValue(weight.getLeft());
-				row.createCell(4).setCellValue(weight.getRight());
-			}
+		for ( PairDiff pair:result.getPairDeletedDetail().values()){
+			rowIndex = output(rowIndex, pair);
 			
 		}
+		
+		for ( PairDiff pair:result.pairDiffs.values()){
+			rowIndex = output(rowIndex, pair);
+			
+		}
+		
 		closeFile(filename);
 		return true;
+	}
+
+	private int output(int rowIndex, PairDiff addedPairs) {
+		for (WeightDiff weight:addedPairs.weightDiffs) {
+			XSSFRow row = sheet.createRow(rowIndex++);
+			String[] files = addedPairs.key.split("-->");
+			row.createCell(0).setCellValue(files[0]);
+			row.createCell(1).setCellValue(files[1]);
+			row.createCell(2).setCellValue(weight.getType());
+			row.createCell(3).setCellValue(weight.getLeft());
+			row.createCell(4).setCellValue(weight.getRight());
+		}
+		return rowIndex;
 	}
 
 

@@ -16,7 +16,7 @@ public class DependencyComparatorTest {
 		String f_1 = "./src/test/resources/1.json";
 		String f_2 = "./src/test/resources/2.json";
 		Comparator comparator = new Comparator("ad",new String[] {}, new TypeMapping());
-		CompareResult result = comparator.compare(f_1, f_2);
+		CompareResult result = comparator.compare(f_1, f_2,new EmptyConfig());
 		assertEquals(1, result.getDeletedVariables().size());
 		assertEquals(1, result.getAddedVariables().size());
 		assertEquals(1, result.getAddedDependencyPairs().size());

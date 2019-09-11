@@ -15,7 +15,7 @@ public class DependencyMatrixJsonLoaderTest {
 	@Test
 	public void test() throws Exception {
 		 DependencyMatrixJsonLoader loader = new  DependencyMatrixJsonLoader();
-		 DependenciesRelation dependencies = loader.loadDependencyMatrix(Paths.get("./src/test/resources/1.json"),new ArrayList<>(),new TypeMapping());
+		 DependenciesRelation dependencies = loader.loadDependencyMatrix(Paths.get("./src/test/resources/1.json"),new ArrayList<>(),new TypeMapping(),0);
 		 assertEquals(5,dependencies.getVariables().length);
 		 assertEquals(4,dependencies.getPairs().size());
 	}

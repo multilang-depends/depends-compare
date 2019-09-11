@@ -21,7 +21,7 @@ public class DependsCompareMain {
 			}
 			executeCommand(app);
 		} catch (Exception e) {
-			System.err.println("Exception encountered");
+			System.err.println("Exception encountered" + e.getMessage());
 			CommandLine.usage(new DependsCompareCommand(), System.out);
 			System.exit(0);
 		}
@@ -33,7 +33,7 @@ public class DependsCompareMain {
 		TypeMapping mapping = new TypeMapping();
 		mapping.load(app.getMapping());
 		Comparator comparator = new Comparator(app.getControl(),app.getIgnore(),mapping);
-		CompareResult result = comparator.compare(app.getLeft(), app.getRight());
+		CompareResult result = comparator.compare(app.getLeft(), app.getRight(),app);
 		if (app.getFormat().contains("excel")) {
 			XlsxDumper xlsxDumper = new XlsxDumper();
 			xlsxDumper.output(app.getOutput()+".xlsx", result);

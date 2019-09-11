@@ -20,13 +20,14 @@ public class DependencyMatrixJsonLoader {
 	public DependencyMatrixJsonLoader() {
 	}
 
-	public DependenciesRelation loadDependencyMatrix(Path path, List<String> ignoredTypes, TypeMapping typeMapping) throws Exception {
+	public DependenciesRelation loadDependencyMatrix(Path path, List<String> ignoredTypes, TypeMapping typeMapping, Integer prefixStripOffset) throws Exception {
 		DependenciesRelation m = new DependenciesRelation();
 		ObjectMapper mapper = new ObjectMapper();
 		try (InputStream input = Files.newInputStream(path, READ)) {
 			JsonParser parser = new JsonFactory().createParser(input);
 			JsonNode matrixNode = mapper.readTree(parser);
 			m.addVariables(mapper.treeToValue(matrixNode.get("variables"), String[].class));
+			m.stripVariablesPrefix(prefixStripOffset);
 			for (JsonNode cell : matrixNode.get("cells")) {
 				JsonNode types = cell.get("values");
 				for (Iterator<String> iter = types.fieldNames(); iter.hasNext();) {

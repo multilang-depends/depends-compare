@@ -25,7 +25,8 @@ public class DependsCompareCommand {
     private String[] mappings=new String[]{}; 
     @Option(names = {"-f", "--format"},split=",",  description = "the output format: [json(default),excel]")
     private String[] format=new String[]{"json"};
-
+    @Option(names = {"--prefix-strip"},split=",",  description = "prefix strip length =left,right")
+    private Integer[] prefixStrip=new Integer[]{0,0};
     
 	public List<String> getFormat() {
 		return Arrays.asList(format);
@@ -54,6 +55,12 @@ public class DependsCompareCommand {
 	}
 	public String[] getMapping() {
 		return mappings;
+	}
+	public Integer[] getPrefixStrip() {
+		if (prefixStrip.length!=2) {
+			throw new RuntimeException("incorrect prefix value setting.");
+		}
+		return prefixStrip;
 	}
 	
 }
