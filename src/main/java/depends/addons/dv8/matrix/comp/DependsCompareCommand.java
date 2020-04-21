@@ -21,7 +21,7 @@ public class DependsCompareCommand {
     private String[] ignore=new String[]{};  
     @Option(names = {"--control"},  description = "d(deleted only)|a(added only)|ad(both)")
     private String control="ad";
-    @Option(names = {"--mappings"},  description = "the type mapping pairs (like Inherit:Extend,P10:Call)")
+    @Option(names = {"--mappings"}, split=",", description = "the type mapping pairs (like Inherit:Extend,P10:Call)")
     private String[] mappings=new String[]{}; 
     @Option(names = {"-f", "--format"},split=",",  description = "the output format: [json(default),excel]")
     private String[] format=new String[]{"json"};

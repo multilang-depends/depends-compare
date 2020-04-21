@@ -2,8 +2,6 @@ package depends.addons;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.ArrayList;
-
 import org.junit.Test;
 
 import depends.addons.dv8.matrix.comp.Comparator;

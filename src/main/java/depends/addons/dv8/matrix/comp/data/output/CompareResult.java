@@ -1,6 +1,5 @@
 package depends.addons.dv8.matrix.comp.data.output;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 
